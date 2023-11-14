@@ -1,6 +1,7 @@
 require "faraday"
 require "faraday/multipart"
 
+require_relative "openai/error"
 require_relative "openai/http"
 require_relative "openai/client"
 require_relative "openai/files"
@@ -8,10 +9,16 @@ require_relative "openai/finetunes"
 require_relative "openai/images"
 require_relative "openai/models"
 require_relative "openai/audio"
+require_relative "openai/assistants"
+require_relative "openai/threads"
+require_relative "openai/messages"
+require_relative "openai/runs"
+require_relative "openai/run_steps"
+require_relative "openai/audio"
+require_relative "openai/assistant_files"
 require_relative "openai/version"
 
 module OpenAI
-  class Error < StandardError; end
   class ConfigurationError < Error; end
 
   class Configuration
@@ -30,7 +37,7 @@ module OpenAI
       @organization_id = nil
       @uri_base = DEFAULT_URI_BASE
       @request_timeout = DEFAULT_REQUEST_TIMEOUT
-      @extra_headers = nil
+      @extra_headers = {}
     end
 
     def access_token
